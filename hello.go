@@ -7,25 +7,35 @@ func main() {
 }
 
 // on prepare les differente constante utiliser dans la fonction
-const englishHelloPrefix = "Hello, "
-const spannish = "Spanish"
-const spannishHelloPrefix = "Hola, "
-const french = "French"
-const frenchHelloPrefix = "Salut, "
+// on peut declarer un groupe de constante
+const (
+	spannish = "Spanish"
+	french   = "French"
+
+	englishHelloPrefix  = "Hello, "
+	spannishHelloPrefix = "Hola, "
+	frenchHelloPrefix   = "Salut, "
+)
 
 func Hello(name, language string) string {
 	if name == "" {
 		name = "World"
 	}
-	// on prepare le prefix
-	prefix := englishHelloPrefix
-	// on utilise le switch pour tester les valeurs passer a la fonction
+
+	return greetingPrefix(language) + name
+}
+
+// on ajoute un retour nommer qui permet de declare automatiqement la variable dans la fonction
+// prend automatiquement la valeur nul lier au type => ici ""
+func greetingPrefix(language string) (prefix string) {
 	switch language {
 	case spannish:
 		prefix = spannishHelloPrefix
 	case french:
 		prefix = frenchHelloPrefix
+	default:
+		prefix = englishHelloPrefix
 	}
 
-	return prefix + name
+	return // on retourne le prefix qui est declarer dans le retour de la fonction
 }
