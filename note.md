@@ -31,3 +31,8 @@ const maConstante = "Hello, "
 On peut venir grouper plusieurs test pour rasssembler tout les test d'une seule fonction.
 
 Pour cela, on definit la methode que l'on veux tester puis on definis les differents sous test permettant de tester les differents comportement attendu.
+
+### Ecrire des tests
+
+- `testing.TB` est une interface qui satisfait `*testing.T` et `*testing.B`
+- `t.Helper()` est utiliser pour indiquer au test d'utilser cette methode comme un helper
