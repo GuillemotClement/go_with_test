@@ -2,8 +2,8 @@
 
 - `import "testing"` est la package pour realiser des tests
 
-- un test est simplement une foncton qui respect quelque regles :
-  - le fichierr s'appelle `xxx_test.go`
+- un test est simplement une fonction qui respect quelque regles :
+  - le fichier s'appelle `xxx_test.go`
   - le nom de la fonction commence par `Test`
   - la fonction prend 1 argument `t *testing.T`
 
@@ -36,3 +36,15 @@ Pour cela, on definit la methode que l'on veux tester puis on definis les differ
 
 - `testing.TB` est une interface qui satisfait `*testing.T` et `*testing.B`
 - `t.Helper()` est utiliser pour indiquer au test d'utilser cette methode comme un helper
+
+## Benchmark
+
+```shell
+go test -bench=.
+```
+
+## Coverage
+
+```shell
+go test -cover
+```
