@@ -20,3 +20,19 @@ func SumAll(numbersToSum ...[]int) []int {
 	}
 	return sums
 }
+
+func SumAllTails(numbersToSum ...[]int) []int {
+	var sums []int
+	for _, numbers := range numbersToSum {
+		if len(numbers) == 0 {
+			// sums contiens la valeur precedente
+			sums = append(sums, 0)
+		} else {
+			tail := numbers[1:] // on recupere a partir du 2 eme element du slice
+			sums = append(sums, Sum(tail))
+		}
+
+	}
+
+	return sums
+}
