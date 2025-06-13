@@ -1,22 +1,20 @@
 package wallet
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestWallet(t *testing.T) {
-	// wallet prend une struct
+	// affecte la struct a la variable
 	wallet := Wallet{}
-	// methode de la struct
-	wallet.Deposit(10)
+
+	wallet.Deposit(Bitcoin(10))
 
 	got := wallet.Balance()
-	// & permet d'acceder a l'adresse memoire de la valeur de wallet.balance
-	fmt.Printf("adresse of balance in test is %p \n", &wallet.balance)
-	want := 10
+
+	want := Bitcoin(10)
 
 	if got != want {
-		t.Errorf("got %d want %d", got, want)
+		t.Errorf("got %s want %s", got, want)
 	}
 }

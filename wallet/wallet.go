@@ -2,20 +2,21 @@ package wallet
 
 import "fmt"
 
+type Bitcoin int
 type Wallet struct {
-	balance int
+	// permet d'utiliser le typage definis dans la struct qui type la valeur
+	balance Bitcoin
 }
 
-// dans une fonction, on passe une copie de la struct
-// la methode ne modifie pas la valeur de la struct
-// w est une copie de la struct
-// pour modifier la valeur dans la struct il faut passer la struct avec un pointer
-func (w *Wallet) Deposit(amount int) {
-	// %p permet d'afficher la notation hexa
-	fmt.Printf("adress of balance in Deposit is %p \n", &w.balance)
+func (w *Wallet) Deposit(amount Bitcoin) {
 	w.balance += amount
 }
 
-func (w *Wallet) Balance() int {
+func (w *Wallet) Balance() Bitcoin {
 	return w.balance
+}
+
+// permet de modifier le comportement de %s
+func (b Bitcoin) String() string {
+	return fmt.Sprintf("%d BTC", b)
 }
