@@ -15,6 +15,13 @@ func TestWallet(t *testing.T) {
 		}
 	}
 
+	assertError := func(t testing.TB, err error) {
+		t.Helper()
+		if err == nil {
+			t.Errorf("wanted an error but didn't get one")
+		}
+	}
+
 	t.Run("deposit", func(t *testing.T) {
 		wallet := Wallet{}
 		wallet.Deposit(Bitcoin(10))
@@ -28,14 +35,11 @@ func TestWallet(t *testing.T) {
 	})
 
 	t.Run("withdraw insufficient fund", func(t *testing.T) {
-		// on place 20 bitcoin dans le portefeuille
 		startingBalance := Bitcoin(20)
-		// on initalise le wallet a 20
 		wallet := Wallet{startingBalance}
-		// on viens catch un cas d'erreur
-		// on essaie de retirer sans du wallet alors qu'il a 20, cela provoque une erreur catcher
 		err := wallet.Withdraw(Bitcoin(100))
 
+		assertError(t, err)
 		assertBalance(t, wallet, startingBalance)
 		// si on as une erreur on affiche un message d'erreur et on stop le test
 		if err == nil {
