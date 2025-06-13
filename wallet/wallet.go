@@ -29,7 +29,7 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 	// on viens test la valeur du wallet avant de faire l'operation de retrait
 	if amount > w.balance {
 		// throw une erreur si la valeur du compte est inferieur a l'operation
-		return errors.New("oh oh")
+		return errors.New("cannot withdraw, insufficient founds")
 	}
 
 	w.balance -= amount
