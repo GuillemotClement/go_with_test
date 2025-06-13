@@ -1,6 +1,9 @@
 package wallet
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Bitcoin int
 type Wallet struct {
@@ -21,6 +24,15 @@ func (b Bitcoin) String() string {
 	return fmt.Sprintf("%d BTC", b)
 }
 
-func (w *Wallet) Withdraw(amout Bitcoin) {
-	w.balance -= amout
+// la fonction retourne une erreur
+func (w *Wallet) Withdraw(amount Bitcoin) error {
+	// on viens test la valeur du wallet avant de faire l'operation de retrait
+	if amount > w.balance {
+		// throw une erreur si la valeur du compte est inferieur a l'operation
+		return errors.New("oh oh")
+	}
+
+	w.balance -= amount
+	// si ok on rertourne nil qui indique une absence d'erreur
+	return nil
 }
