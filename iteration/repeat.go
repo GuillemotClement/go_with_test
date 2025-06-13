@@ -1,11 +1,13 @@
 package iteration
 
-func Repeat(character string) string {
-	var repeated string // on declare une variable sans lui affected de valeur
+import "strings"
 
-	// on creer une boucle pour repeter le character, et pour chaque iteration l'ajouter a la string qui est ensuite retourner
-	for i := 0; i < 5; i++ {
-		repeated = repeated + character
+//const repeatCount = 5
+
+func Repeat(character string, numberRepeat int) string {
+	var repeated strings.Builder
+	for i := 0; i < numberRepeat; i++ {
+		repeated.WriteString(character)
 	}
-	return repeated
+	return repeated.String()
 }
