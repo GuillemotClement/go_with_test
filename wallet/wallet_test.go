@@ -16,7 +16,11 @@ func TestWallet(t *testing.T) {
 
 	t.Run("withdraw with founds", func(t *testing.T) {
 		wallet := Wallet{Bitcoin(20)}
-		wallet.Withdraw(Bitcoin(10))
+		// on catch erreur potentiel
+		err := wallet.Withdraw(Bitcoin(10))
+
+		// permet de check err
+		assertNoError(t, err)
 		assertBalance(t, wallet, Bitcoin(10))
 	})
 
@@ -47,9 +51,16 @@ func assertError(t testing.TB, got, want error) {
 	if got == nil {
 		t.Fatalf("didn't get an error but wanted one")
 	}
-
 	// permet de convertir l'erreur en string
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func assertNoError(t testing.TB, got error) {
+	t.Helper()
+	// si on recupere une erreur on kill et affiche le message
+	if got != nil {
+		t.Fatalf("got an error but didn't want one")
 	}
 }
