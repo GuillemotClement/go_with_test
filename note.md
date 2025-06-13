@@ -48,3 +48,14 @@ go test -bench=.
 ```shell
 go test -cover
 ```
+
+## Fonction
+
+### Variadic Function
+C'est une fonction qui peut accepter un nombre indefinie de parametre d'entree. On utilise `...` devant le type de l'argument.
+```go
+// la fonction peut prendre plusieurs slice de int et retourne in slice de int
+func SumAll(numbersToSum ...[]int) []int {
+	return nil
+}
+```
