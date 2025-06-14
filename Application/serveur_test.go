@@ -113,145 +113,17 @@ func newPostWinRequest(name string) *http.Request {
 	return req
 }
 
-//func TestStoreWins(t *testing.T) {
-//	store := StubPlayerStore{
-//		map[string]int{},
-//		nil,
-//	}
-//	server := &PlayerServer{&store}
-//
-//	t.Run("it records wins when POST", func(t *testing.T) {
-//		request := newPostWinRequest("Pepper")
-//		response := httptest.NewRecorder()
-//
-//		server.ServeHTTP(response, request)
-//
-//		assertStatus(t, response.Code, http.StatusAccepted)
-//
-//		if len(store.winCalls) != 1 {
-//			t.Errorf("got %d calls to RecordWin want %d", len(store.winCalls), 1)
-//		}
-//	})
-//}
+// TEST LEAGUE ===================================================================
+func TestLeague(t *testing.T) {
+	store := StubPlayerStore{}
+	server := &PlayerServer{&store}
 
-//func TestStoreWins(t *testing.T) {
-//	store := StubPlayerStore{
-//		map[string]int{},
-//	}
-//	server := &PlayerServer{&store}
-//
-//	t.Run("it returns accepted on POST", func(t *testing.T) {
-//		request, _ := http.NewRequest(http.MethodPost, "/players/Pepper", nil)
-//		response := httptest.NewRecorder()
-//
-//		server.ServeHTTP(response, request)
-//
-//		assertStatus(t, response.Code, http.StatusAccepted)
-//	})
-//}
+	t.Run("it return 200 on /league", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/league", nil)
+		response := httptest.NewRecorder()
 
-//func TestGETPlayers(t *testing.T) {
-//	store := StubPlayerStore{
-//		map[string]int{
-//			"Pepper": 20,
-//			"Floyd":  10,
-//		},
-//	}
-//	server := &PlayerServer{&store}
-//
-//	t.Run("returns Pepper's score", func(t *testing.T) {
-//		request := newGetScoreRequest("Pepper")
-//		response := httptest.NewRecorder()
-//
-//		server.ServeHTTP(response, request)
-//
-//		assertResponseBody(t, response.Body.String(), "20")
-//	})
-//
-//	t.Run("returns Floyd's score", func(t *testing.T) {
-//		request := newGetScoreRequest("Floyd")
-//		response := httptest.NewRecorder()
-//
-//		server.ServeHTTP(response, request)
-//
-//		assertResponseBody(t, response.Body.String(), "10")
-//	})
-//
-//	t.Run("return 404 on missing players", func(t *testing.T) {
-//		// on creer une nouvelle requete avec un player qui n'existe pas
-//		request := newGetScoreRequest("Apollo")
-//		response := httptest.NewRecorder()
-//
-//		server.ServeHTTP(response, request)
-//
-//		// on definis les status code que l'on doit recuperer si le player existe pas
-//		got := response.Code
-//		want := http.StatusNotFound
-//
-//		if got != want {
-//			t.Errorf("got status %d want %d", got, want)
-//		}
-//	})
-//}
+		server.ServeHTTP(response, request)
 
-//func TestGETPlayers(t *testing.T) {
-//	t.Run("returns Pepper's score", func(t *testing.T) {
-//		// permet de creer une nouvelle requete
-//		// le premier argument est la requete et le second le path
-//		// le nil refer to le request body
-//		request, _ := http.NewRequest(http.MethodGet, "/players/Pepper", nil)
-//		// ajout d'un spy
-//		response := httptest.NewRecorder()
-//
-//		PlayerServer(response, request)
-//
-//		got := response.Body.String()
-//		want := "20"
-//
-//		if got != want {
-//			t.Errorf("got %q, want %q", got, want)
-//		}
-//	})
-//
-//	t.Run("returns Floyd's score", func(t *testing.T) {
-//		request, _ := http.NewRequest(http.MethodGet, "/players/Floyd", nil)
-//		response := httptest.NewRecorder()
-//
-//		PlayerServer(response, request)
-//
-//		got := response.Body.String()
-//		want := "10"
-//
-//		if got != want {
-//			t.Errorf("got %q, want %q", got, want)
-//		}
-//	})
-//}
-
-//func TestGetPlayerScore(t *testing.T) {
-//	server := &PlayerServer{}
-//
-//	t.Run("returns Pepper's score", func(t *testing.T) {
-//		// fonction qui permet de faire la requete
-//		request := newGetScoreRequest("Pepper")
-//		// permet de mocker la reponse HTTP
-//		response := httptest.NewRecorder()
-//
-//		server.ServeHTTP(response, request)
-//
-//		assertResponseBody(t, response.Body.String(), "20")
-//	})
-//
-//	t.Run("returns Floyd's score", func(t *testing.T) {
-//		request := newGetScoreRequest("Floyd")
-//		response := httptest.NewRecorder()
-//
-//		server.ServeHTTP(response, request)
-//
-//		assertResponseBody(t, response.Body.String(), "10")
-//	})
-//}
-
-//type StubPlayerStore struct {
-//	scores map[string]int
-//}
+		assertStatus(t, response.Code, http.StatusOK)
+	})
+}
