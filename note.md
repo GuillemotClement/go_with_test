@@ -63,3 +63,62 @@ func SumAll(numbersToSum ...[]int) []int {
 
 ## Buffer
 Un buffer est une zone de memoire temporaire ou on stocke des donnees avant de les utiliser, les envoyer ou les afficher. 
+
+## Writter
+L'interface `io.Writter` represente n'importe quoi qui sait ecrire des donnees.
+```go
+type Writer interface {
+    Write(p []byte) (n int, err error)
+}
+```
+Si un type a une methode `Write([]byte) (int, error)` alors il implemente l'interface.
+
+Cet interface permet d'ecrire du code generatique qui peut ecrire dans :
+- un fichier
+- un buffer memoire
+- la console
+- un socket reseau
+- etc
+Sans que le code ait besoin de savoir ou ecrire
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+)
+
+// fonction generique qui permet d'ecrire un message
+// elle n'as pas besoin de savoir ou elle doit ecrire
+// elle permet uniquement d'ecrire dans quelque chose qui implemente `io.Writter`
+// c'est l'injection de dependance
+func Greet(writer io.Writer, name string) {
+	// le writter permet de definis ou ou veux ecrire le message
+	fmt.Fprintf(writer, "Hello, %s", name)
+}
+// la fonction permet d'ecrire un message dans une requete HTTP
+// elle appelle Greet qui ecrit rellement le message
+// Cette fonction permet de definir ou le message sera ecrit => ici une requete HTTP
+func MyGreeterHandler(w http.ResponseWriter, r *http.Request) {
+	Greet(w, "world")
+}
+
+func main() {
+	// on demarre un serveur qui ecoute sur le port 5001
+	// a chaque requete on appelle la fonction qui ecrit le message
+	log.Fatal(http.ListenAndServe(":5001", http.HandlerFunc(MyGreeterHandler)))
+}
+```
+
+```go
+Client navigateur ==> Serveur HTTP (port 5001)
+       ==> MyGreeterHandler(w, r)
+           ==> Greet(w, "world")
+               ==> fmt.Fprintf(w, "Hello, world")
+                   ==> La réponse HTTP contient "Hello, world"
+```
+
+
+## Mocking 
