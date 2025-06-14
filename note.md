@@ -64,6 +64,26 @@ func SumAll(numbersToSum ...[]int) []int {
 ## Buffer
 Un buffer est une zone de memoire temporaire ou on stocke des donnees avant de les utiliser, les envoyer ou les afficher. 
 
+```go
+buffer := &bytes.Buffer{}
+
+Countdown(buffer)
+```
+Dans ce code, on viens creer une zone memoire temporaire. 
+- `bytes.Buffer{}`
+  On creer une instance valeur de type `bytes.Buffer`. Concretement Go reserve un bout de memoire sur la pile qui contient un buffer vide.
+
+- `&bytes.Buffer{}`
+  - On demande une adresse memoire avec le `&`
+  - On obtient un pointeur vers ce buffer
+
+- `Countdown(buffer)`
+  - On passe le pointeur dans la fonction qui as acces a ce buffer pour ecrire des choses
+
+
+
+
+
 ## Writter
 L'interface `io.Writter` represente n'importe quoi qui sait ecrire des donnees.
 ```go
@@ -120,5 +140,7 @@ Client navigateur ==> Serveur HTTP (port 5001)
                    ==> La réponse HTTP contient "Hello, world"
 ```
 
+### os.Stdout
+Permet d'ecrire dans le terminal
 
 ## Mocking 

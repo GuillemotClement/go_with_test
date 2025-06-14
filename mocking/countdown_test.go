@@ -6,12 +6,12 @@ import (
 )
 
 func TestCountdown(t *testing.T) {
-	// creer une instance vide de `bytes.Buffer`: bytes.Buffer{}
-	// stocke l'adresse memoire de ce buffer avec le &
+	// on creer un nouveau buffer => une zone memoire temporaire
 	buffer := &bytes.Buffer{}
-
+	// on passe ce buffer dnas la fonction => le pointeur et permet a la fonction de modifier le buffer
 	Countdown(buffer)
-
+	// en interne, le buffer contiens des []byte => c'est un tableau de bytes
+	// avec .String() on convertis le []byte en string
 	got := buffer.String()
 	want := "3"
 
