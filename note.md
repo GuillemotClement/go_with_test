@@ -59,3 +59,7 @@ func SumAll(numbersToSum ...[]int) []int {
 	return nil
 }
 ```
+
+
+## Buffer
+Un buffer est une zone de memoire temporaire ou on stocke des donnees avant de les utiliser, les envoyer ou les afficher. 
