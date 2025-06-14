@@ -86,6 +86,50 @@ func (s *StubPlayerStore) GetPlayerScore(name string) int {
 	return score
 }
 
+//func TestGETPlayers(t *testing.T) {
+//	store := StubPlayerStore{
+//		map[string]int{
+//			"Pepper": 20,
+//			"Floyd":  10,
+//		},
+//	}
+//	server := &PlayerServer{&store}
+//
+//	t.Run("returns Pepper's score", func(t *testing.T) {
+//		request := newGetScoreRequest("Pepper")
+//		response := httptest.NewRecorder()
+//
+//		server.ServeHTTP(response, request)
+//
+//		assertResponseBody(t, response.Body.String(), "20")
+//	})
+//
+//	t.Run("returns Floyd's score", func(t *testing.T) {
+//		request := newGetScoreRequest("Floyd")
+//		response := httptest.NewRecorder()
+//
+//		server.ServeHTTP(response, request)
+//
+//		assertResponseBody(t, response.Body.String(), "10")
+//	})
+//
+//	t.Run("return 404 on missing players", func(t *testing.T) {
+//		// on creer une nouvelle requete avec un player qui n'existe pas
+//		request := newGetScoreRequest("Apollo")
+//		response := httptest.NewRecorder()
+//
+//		server.ServeHTTP(response, request)
+//
+//		// on definis les status code que l'on doit recuperer si le player existe pas
+//		got := response.Code
+//		want := http.StatusNotFound
+//
+//		if got != want {
+//			t.Errorf("got status %d want %d", got, want)
+//		}
+//	})
+//}
+
 func TestGETPlayers(t *testing.T) {
 	store := StubPlayerStore{
 		map[string]int{
@@ -101,6 +145,7 @@ func TestGETPlayers(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
+		assertStatus(t, response.Code, http.StatusOK)
 		assertResponseBody(t, response.Body.String(), "20")
 	})
 
@@ -110,6 +155,24 @@ func TestGETPlayers(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
+		assertStatus(t, response.Code, http.StatusOK)
 		assertResponseBody(t, response.Body.String(), "10")
 	})
+
+	t.Run("return 404 on missing players", func(t *testing.T) {
+		// on creer une nouvelle requete avec un player qui n'existe pas
+		request := newGetScoreRequest("Apollo")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertStatus(t, response.Code, http.StatusNotFound)
+	})
+}
+
+func assertStatus(t testing.TB, got, want int) {
+	t.Helper()
+	if got != want {
+		t.Errorf("did not get correct status, got %d, want %d", want, got)
+	}
 }
