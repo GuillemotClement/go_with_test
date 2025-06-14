@@ -9,6 +9,7 @@ import (
 // PlayerStore store score information about players
 type PlayerStore interface {
 	GetPlayerScore(name string) int
+	RecordWin(name string)
 }
 
 // PlayerServer is a HTTP interface for player information.
@@ -38,6 +39,7 @@ func (p *PlayerServer) showScore(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *PlayerServer) processWin(w http.ResponseWriter) {
+	p.store.RecordWin("Bob")
 	w.WriteHeader(http.StatusAccepted)
 }
 
