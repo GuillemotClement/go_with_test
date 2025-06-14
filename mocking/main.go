@@ -32,6 +32,35 @@ func (d *DefaultSleeper) Sleep() {
 	time.Sleep(1 * time.Second)
 }
 
+type SpyCountdwonOperations struct {
+	Calls []string
+}
+
+func (s *SpyCountdwonOperations) Sleep() {
+	s.Calls = append(s.Calls, sleep)
+}
+
+func (s *SpyCountdwonOperations) Write(p []byte) (n int, err error) {
+	s.Calls = append(s.Calls, write)
+	return
+}
+
+type ConfigurableSleeper struct {
+	duration time.Duration
+	sleep    func(time.Duration)
+}
+
+type SpyTime struct {
+	durationSlept time.Duration
+}
+
+func (s *SpyTime) Sleep(duration time.Duration) {
+	s.durationSlept = duration
+}
+
+const write = "write"
+const sleep = "sleep"
+
 // definition des constante
 const finalWorld = "Go!"
 const countDownStart = 3
@@ -40,17 +69,22 @@ const countDownStart = 3
 // on rend la fonction generique en lui passant une interface io.Writter
 // cela permet de rendre la fonction generique et lui permettant d'accepter n'importe quel objet qui implement l'interface (pour ecriture)
 func Countdown(out io.Writer, sleeper Sleeper) {
-	// boucle qui permet de faire le decompte
 	for i := countDownStart; i > 0; i-- {
-		fmt.Fprintln(out, i)
-		// permet d'ajoute un temps entre chaque iteration
 		sleeper.Sleep()
 	}
+	for i := countDownStart; i > 0; i-- {
+		fmt.Println(out, i)
+	}
+
 	fmt.Fprint(out, finalWorld)
 }
 
+func (c *ConfigurableSleeper) Sleep() {
+	c.sleep(c.duration)
+}
+
 func main() {
-	sleeper := &DefaultSleeper{}
+	sleeper := &ConfigurableSleeper{1 * time.Second, time.Sleep}
 	// os.Stdout permet d'ecrire dans le terminal (la sortie standard)
 	Countdown(os.Stdout, sleeper)
 }
