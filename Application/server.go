@@ -6,17 +6,37 @@ import (
 	"strings"
 )
 
-func PlayerServer(w http.ResponseWriter, r *http.Request) {
-	// on recupere le joueur depuis l'url
+// PlayerStore store score information about players
+type PlayerStore interface {
+	GetPlayerScore(name string) int
+}
+
+// PlayerServer is a HTTP interface for player information.
+type PlayerServer struct {
+	store PlayerStore
+}
+
+func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	player := strings.TrimPrefix(r.URL.Path, "/players/")
+	fmt.Fprint(w, p.store.GetPlayerScore(player))
+}
 
-	if player == "Pepper" {
-		fmt.Fprint(w, "20")
-		return
+//func PlayerServer(w http.ResponseWriter, r *http.Request) {
+//	// on recupere le joueur depuis l'url
+//	player := strings.TrimPrefix(r.URL.Path, "/players/")
+//	// w est un objet fournis par le serveur HTTP pour ecrire la reponse HTTP
+//	// c'est lui qui permet d'ecrire du text au client
+//	fmt.Fprint(w, GetPlayerScore(player))
+//}
+
+func GetPlayerScore(name string) string {
+	if name == "Pepper" {
+		return "20"
 	}
 
-	if player == "Floyd" {
-		fmt.Fprint(w, "10")
-		return
+	if name == "Floyd" {
+		return "10"
 	}
+
+	return ""
 }
