@@ -16,7 +16,11 @@ import (
 // on rend la fonction generique en lui passant une interface io.Writter
 // cela permet de rendre la fonction generique et lui permettant d'accepter n'importe quel objet qui implement l'interface (pour ecriture)
 func Countdown(out io.Writer) {
-	fmt.Fprint(out, "3")
+	// boucle qui permet de faire le decompte
+	for i := 3; i > 0; i-- {
+		fmt.Fprintln(out, i)
+	}
+	fmt.Fprint(out, "Go!")
 }
 
 func main() {
